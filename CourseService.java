@@ -1,9 +1,7 @@
-
 import java.util.HashMap;
 
 public class CourseService{
     HashMap<String, Student> students = new HashMap<>();
-
     HashMap<String, Course> courses = new HashMap<>();
 
 
@@ -23,20 +21,23 @@ public class CourseService{
     }//constructor
 
     public void enrollStudent(String studentId, String courseId){
-    	// Obtener el estudiante del HashMap usando su ID
-        Student Student = students.get(studentId);
-    }
+        Course course = courses.get(courseId);
+        Student student = students.get(studentId);
+        if ((student!=null) && (course!=null))  {
+            student.enroll(course);
+        }//!=null
+    }//enrollStudent
 
     public void unEnrollStudent1(String studentId, String courseId){
-    	// Obtener el curso del HashMap usando su ID
+        
         Course course = courses.get(courseId);
+        Student student = students.get(studentId);
+
+        if(student != null && course != null){
+            student.enroll(course);     
+        }//!=null
         
-     // Si ambos existen, inscribir al estudiante en el curso
-        if(Student != null && course != null){
-            Student.enroll(course);     
-        }
-        
-    }
+    }//enrollStudent
     
     public void unEnrollStudent(String studentId, String courseId){
         // Obtener el estudiante del HashMap
@@ -52,7 +53,7 @@ public class CourseService{
     }
 
     public void displayCourseInformation(String courseId){
-    	// Obtener el curso del HashMap
+        // Obtener el curso del HashMap
         Course course = courses.get(courseId);
         
         // Si el curso existe, mostrar su información
@@ -64,10 +65,10 @@ public class CourseService{
         } else {
             System.out.println("Course not found with ID: " + courseId);
         }
-    }
+    }//displayCourseInformation
 
     public void displayStudentInformation(String studentId){
-    	// Obtener el estudiante del HashMap
+        // Obtener el estudiante del HashMap
         Student student = students.get(studentId);
         
         // Si el estudiante existe, mostrar su información
@@ -85,6 +86,22 @@ public class CourseService{
         } else {
             System.out.println("Student not found with ID: " + studentId);
         }
+    }// displayStudentInformation
+        
+    // DESAFÍO ADICIONAL DEL EJERCICIO
+    public void totalCredits(String studentId){
+        Student student = students.get(studentId);
+        
+        if(student != null){
+            int totalCredits = 0;
+            
+            for(Course course : student.getEnrolledCourses()){
+                totalCredits += course.credits;
+            }
+            
+            System.out.println("Total credits for " + student.getName() + ": " + totalCredits);
+        } else {
+            System.out.println("Student not found with ID: " + studentId);
+        }
     }
-
 }
